@@ -7,3 +7,24 @@
 -- these lines here.
 
 
+DROP DATABASE IF EXISTS tournament;
+CREATE DATABASE tournament;
+
+DROP TABLE IF EXISTS players;
+CREATE TABLE players (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255)
+);
+
+/*
+DROP TABLE IF EXIST tournaments;
+CREATE TABLE tournaments (
+);
+*/
+
+DROP TABLE IF EXISTS matches;
+CREATE TABLE matches (
+    p1 INT REFERENCES players (id),
+    p2 INT REFERENCES players (id),
+    winner INT REFERENCES players (id)
+);
