@@ -99,7 +99,6 @@ def playerStandings():
     cur.close()
     conn.commit()
     conn.close()
-    print "standings:", standings
     return standings
 
 
@@ -110,7 +109,7 @@ def reportMatch(winner, loser):
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
-    query = "INSERT INTO matches (p1, p2, winner) VALUES (%s)"
+    query = "INSERT INTO matches (p1, p2, winner) VALUES (%s,%s,%s)"
 
     conn = connect()
     cur = conn.cursor()
