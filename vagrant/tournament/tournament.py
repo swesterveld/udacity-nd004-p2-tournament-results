@@ -34,8 +34,9 @@ def deletePlayers():
     query = "DELETE FROM players;"
 
     conn = connect()
-    cursor = conn.cursor()
-    cursor.execute(query)
+    cur = conn.cursor()
+    cur.execute(query)
+    cur.close()
     conn.commit()
     conn.close()
 
@@ -50,8 +51,8 @@ def countPlayers():
     # objects
     cur.execute(query)
     count = cur.fetchone()[0]
-    conn.commit()
     cur.close()
+    conn.commit()
     conn.close()
     return count
 
@@ -71,9 +72,9 @@ def registerPlayer(name):
     conn = connect()
     cur = conn.cursor()
     cur.execute(query, (name,))
-    conn.commit()
     cur.close()
-    conn.close
+    conn.commit()
+    conn.close()
 
 
 def playerStandings():
@@ -89,6 +90,17 @@ def playerStandings():
         wins: the number of matches the player has won
         matches: the number of matches the player has played
     """
+    query = "SELECT * FROM player_standings;"
+
+    conn = connect()
+    cur = conn.cursor()
+    cur.execute(query)
+    standings = cur.fetchall()
+    cur.close()
+    conn.commit()
+    conn.close()
+    print "standings:", standings
+    return standings
 
 
 def reportMatch(winner, loser):
@@ -98,9 +110,14 @@ def reportMatch(winner, loser):
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
-    cursor = connect().cursor()
     query = "INSERT INTO matches (p1, p2, winner) VALUES (%s)"
-    cursor.commit(query, (winner, loser, winner))
+
+    conn = connect()
+    cur = conn.cursor()
+    cur.execute(query, (winner, loser, winner))
+    cur.close()
+    conn.commit()
+    conn.close()
 
 
 def swissPairings():
