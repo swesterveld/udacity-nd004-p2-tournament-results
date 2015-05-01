@@ -103,6 +103,35 @@ def testStandingsBeforeMatches():
     print "6. Newly registered players appear in the standings with no matches."
 
 
+def testStandingsOrdering():
+    """Test ordering of player standings, according to OMW (Opponent Match
+    Wins) when multiple players have the smae number of wins."""
+    deleteMatches()
+    deletePlayers()
+    players = ["Kiersten Kemper", "Elfreda Eakins", "Winston Wunsch",
+               "Sudie Sobotka", "Katharyn Korth"]
+    bulkRegisterPlayers(players)
+    standings = playerStandings()
+    [id1, id2, id3, id4, id5] = [row[0] for row in standings]
+    reportMatch(id1, id2)
+    reportMatch(id2, id3)
+    reportMatch(id3, id4)
+    reportMatch(id4, id5)
+    reportMatch(id5, id1)
+    reportMatch(id1, id3)
+    reportMatch(id1, id3)
+    reportMatch(id2, id4)
+    reportMatch(id3, id5)
+    reportMatch(id3, id4)
+    standings = playerStandings()
+    names = [row[1] for row in standings]
+    players = ["Kiersten Kemper", "Winston Wunsch", "Elfreda Eakins",
+               "Katharyn Korth", "Sudie Sobotka"]
+    if names != players:
+        raise ValueError("Ordering of standings should be according to OMW.")
+    print "6.5 Players appear in standings according to OMW."
+
+
 def testReportMatches():
     deleteMatches()
     deletePlayers()
@@ -154,6 +183,7 @@ if __name__ == '__main__':
     testRegister()
     testRegisterCountDelete()
     testStandingsBeforeMatches()
+    testStandingsOrdering()
     testReportMatches()
     testPairings()
     print "Success!  All tests pass!"
