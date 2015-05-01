@@ -27,8 +27,8 @@ used by the Udacity reviewer, this code at least:
 2. Make sure your computer is connected to the internet
 3. Clone this repository to a directory on your computer
 4. Change directory to the ```vagrant``` directory in the repository
-5. Issue ```vagrant up``` to start the virtual machine
-6. Issue ```vagrant ssh``` to login to the virtual machine
+5. Issue ```vagrant up``` to start the virtual environment
+6. Issue ```vagrant ssh``` to login to the virtual environment
 7. Change directory: ```cd /vagrant/tournament/```
 8. Create database: ```psql -c "CREATE DATABASE tournament"; psql -d tournament -f tournament.sql```
 9. Run tests: ```python tournament_test.py```
