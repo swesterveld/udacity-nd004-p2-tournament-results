@@ -23,7 +23,7 @@ used by the Udacity reviewer, this code at least:
   steps required to successfully run the application.
 
 ## Run the application
-1. Make sure Git has been installed on your computer
+1. Make sure Git, Vagrant and VirtualBox have been installed on your computer
 2. Make sure your computer is connected to the internet
 3. Clone this repository to a directory on your computer
 4. Change directory to the ```vagrant``` directory in the repository
