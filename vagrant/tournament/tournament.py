@@ -7,8 +7,12 @@ import psycopg2
 import sys
 
 
+# Check table-names given in generic methods to prevent SQL-injection.
+tables = ("tournaments", "players", "enrollments", "matches")
+
 def connect():
-    """Connect to the PostgreSQL database.  Returns a database connection."""
+    """Connect to the PostgreSQL database. Returns a database connection, or
+    exits when it's not possible to connect to the database."""
     try:
         conn = psycopg2.connect("dbname=tournament")
     except:
@@ -17,17 +21,27 @@ def connect():
 
 
 def count_rows_in(table):
-    """Count all records in a given table"""
+    """Generic method to count all records in a given table.
+
+    Args:
+      table: name of the table to count all records of
+    """
+    if table not in tables:
+        raise ValueError("Invalid table-name given as argument for query")
     query = "SELECT COUNT(*) FROM %s;" % table
 
+    # Connect to the database and open a cursur to perform database operations
     conn = connect()
     cur = conn.cursor()
 
     # Execute a command to query the database and obtain data as Python objects
     cur.execute(query)
     count = cur.fetchone()[0]
+
+    # Make the changes to the database persistent
     conn.commit()
 
+    # Close communication with the database
     cur.close()
     conn.close()
 
@@ -35,7 +49,13 @@ def count_rows_in(table):
 
 
 def delete_rows_from(table):
-    """Remove all records from a given table in the database."""
+    """Generic method to remove all records of a table in the database.
+
+    Args:
+      table: name of the table to remove all records from
+    """
+    if table not in tables:
+        raise ValueError("Invalid table-name given as argument for query")
     query = "DELETE FROM %s;" % table
 
     # Connect to the database and open a cursur to perform database operations
@@ -54,23 +74,29 @@ def delete_rows_from(table):
 
 
 def deleteTournaments():
-    """Remove all the tournament records from the database."""
+    """Wrapper-method to remove all the tournament records from the database."""
     delete_rows_from("tournaments")
 
 
 def countTournaments():
-    """Returns the number of tournaments currently in the database."""
+    """Wrapper-method to return the number of tournaments in the database."""
     return count_rows_in("tournaments")
 
 
 def addTournament(name):
-    """Add a tournament to the database."""
+    """Add a tournament with the given name to the database.
+
+    Args:
+      name: the tournament's name
+    """
     query = "INSERT INTO tournaments (name) VALUES (%s);"
+
+    # Connect, execute query, and disconnect.
     conn = connect()
     cur = conn.cursor()
     cur.execute(query, (name,))
-    cur.close()
     conn.commit()
+    cur.close()
     conn.close()
 
 
@@ -92,24 +118,26 @@ def countPlayers():
 def registerPlayer(name):
     """Adds a player to the tournament database.
 
-    The database assigns a unique serial id number for the player.  (This
-    should be handled by your SQL database schema, not in your Python code.)
-
     Args:
       name: the player's full name (need not be unique).
     """
     query = "INSERT INTO players (name) VALUES (%s);"
 
+    # Connect, execute query, and disconnect.
     conn = connect()
     cur = conn.cursor()
     cur.execute(query, (name,))
-    cur.close()
     conn.commit()
+    cur.close()
     conn.close()
 
 
 def bulkRegisterPlayers(names):
-    """Adds multiple players in bulk."""
+    """Adds multiple players in bulk.
+
+    Args:
+      names: list of full names of players to register
+    """
     for name in names:
         registerPlayer(name)
 
@@ -129,13 +157,15 @@ def playerStandings():
     """
     query = "SELECT * FROM player_standings;"
 
+    # Connect, execute query, and disconnect.
     conn = connect()
     cur = conn.cursor()
     cur.execute(query)
     standings = cur.fetchall()
-    cur.close()
     conn.commit()
+    cur.close()
     conn.close()
+
     return standings
 
 
