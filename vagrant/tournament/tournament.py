@@ -4,11 +4,15 @@
 #
 
 import psycopg2
+import sys
 
 
 def connect():
     """Connect to the PostgreSQL database.  Returns a database connection."""
-    conn = psycopg2.connect("dbname=tournament")
+    try:
+        conn = psycopg2.connect("dbname=tournament")
+    except:
+        sys.exit("Unable to connect to the database")
     return conn
 
 
