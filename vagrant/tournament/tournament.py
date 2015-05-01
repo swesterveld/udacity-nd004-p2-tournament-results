@@ -12,6 +12,29 @@ def connect():
     return conn
 
 
+def deleteTournaments():
+    """Remove all the tournament records from the database."""
+    query = "DELETE FROM tournaments;"
+
+    conn = connect()
+    cur = conn.cursor()
+    cur.execute(query)
+    cur.close()
+    conn.commit()
+    conn.close()
+
+
+def addTournament(name):
+    """Add a tournament to the database."""
+    query = "INSERT INTO tournaments (name) VALUES (%s);"
+    conn = connect()
+    cur = conn.cursor()
+    cur.execute(query, (name,))
+    cur.close()
+    conn.commit()
+    conn.close()
+
+
 def deleteMatches():
     """Remove all the match records from the database."""
     query = "DELETE FROM matches;"
@@ -45,7 +68,7 @@ def countPlayers():
     """Returns the number of players currently registered."""
     query = "SELECT COUNT(*) FROM players;"
 
-    conn = psycopg2.connect("dbname=tournament")
+    conn = connect()
     cur = conn.cursor()
     # Execute a command to query the database and obtain data as Python
     # objects
@@ -135,13 +158,9 @@ def swissPairings():
         name2: the second player's name
     """
     standings = playerStandings()
+
     next_round = []
     for i in range(0, len(standings), 2):
         next_round.append((standings[i][0],standings[i][1],standings[i+1][0],standings[i+1][1]))
 
     return next_round
-
-
-
-
-

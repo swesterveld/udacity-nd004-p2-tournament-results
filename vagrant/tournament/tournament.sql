@@ -7,31 +7,44 @@
 -- these lines here.
 
 
+/*
 DROP DATABASE IF EXISTS tournament;
 CREATE DATABASE tournament;
+*/
+
+DROP TABLE IF EXISTS tournaments CASCADE;
 DROP TABLE IF EXISTS players CASCADE;
+DROP TABLE IF EXISTS enrollments CASCADE;
 DROP TABLE IF EXISTS matches CASCADE;
+-- DROP TABLE IF EXISTS rounds CASCADE;
 DROP VIEW IF EXISTS matches_per_player;
 DROP VIEW IF EXISTS wins_per_player;
 DROP VIEW IF EXISTS player_standings;
 
+
+CREATE TABLE tournaments (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255)
+);
 
 CREATE TABLE players (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255)
 );
 
-/*
-DROP TABLE IF EXIST tournaments;
-CREATE TABLE tournaments (
+CREATE TABLE enrollments (
+    player INT REFERENCES players (id),
+    tournament INT REFERENCES tournaments (id)
 );
-*/
 
 CREATE TABLE matches (
+    id SERIAL PRIMARY KEY,
+    tournament INT REFERENCES tournaments (id),
     p1 INT REFERENCES players (id),
     p2 INT REFERENCES players (id),
     winner INT REFERENCES players (id)
 );
+
 
 -- Views --
 CREATE VIEW matches_per_player AS
@@ -59,21 +72,3 @@ CREATE VIEW player_standings AS
         JOIN (SELECT * FROM matches_per_player) AS m ON p.id = m.id
         JOIN (SELECT * FROM wins_per_player) AS w ON p.id = w.id
     ORDER BY w.wins DESC;
-
-/* some test-data
- */
-INSERT INTO players (name) VALUES('Batman');
-INSERT INTO players (name) VALUES('Superman');
-INSERT INTO players (name) VALUES('Robin');
-INSERT INTO players (name) VALUES('The Hulk');
-INSERT INTO players (name) VALUES('Spiderman');
-
-INSERT INTO matches VALUES(1,3,1);
-INSERT INTO matches VALUES(1,4,1);
-INSERT INTO matches VALUES(4,3,3);
-INSERT INTO matches VALUES(3,4,4);
-INSERT INTO matches VALUES(2,3,2);
-INSERT INTO matches VALUES(2,3,4);
-INSERT INTO matches VALUES(1,3,3);
-INSERT INTO matches VALUES(1,3,1);
-/* some test-data */

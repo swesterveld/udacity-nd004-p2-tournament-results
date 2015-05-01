@@ -4,12 +4,19 @@
 
 from tournament import *
 
+def testDeleteTournaments():
+    deleteTournaments()
+    print "0. Tournaments can be deleted."
+
+
 def testDeleteMatches():
+    deleteTournaments()
     deleteMatches()
     print "1. Old matches can be deleted."
 
 
 def testDelete():
+    deleteTournaments()
     deleteMatches()
     deletePlayers()
     print "2. Player records can be deleted."
@@ -126,6 +133,7 @@ def testPairings():
 
 
 if __name__ == '__main__':
+    testDeleteTournaments()
     testDeleteMatches()
     testDelete()
     testCount()
