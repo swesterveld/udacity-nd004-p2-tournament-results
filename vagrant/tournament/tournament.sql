@@ -1,10 +1,4 @@
 -- Table definitions for the tournament project.
---
--- Put your SQL 'create table' statements in this file; also 'create view'
--- statements if you choose to use it.
---
--- You can write comments in this file by starting them with two dashes, like
--- these lines here.
 
 
 /* Commented out
@@ -55,9 +49,22 @@ CREATE TABLE matches (
 
 -- Views --
 
+
 /*
  * Get overview of the number of matches each player has played.
  * Each row has the players' id and (total) number of matches.
+ *
+ * Example:
+ *
+ *   tournament=> select * from matches_per_player;
+ *    id | matches
+ *   ----+---------
+ *     1 |       4
+ *     2 |       3
+ *     3 |       6
+ *     4 |       4
+ *     5 |       3
+ *   (5 rows)
  */
 CREATE VIEW matches_per_player AS
     SELECT p.id AS id,
@@ -70,6 +77,18 @@ CREATE VIEW matches_per_player AS
 /*
  * Get overview of the number of wins for each player.
  * Each row has the players' id, and (total) number of wins.
+ *
+ * Example:
+ *
+ *   tournament=> select * from wins_per_player;
+ *    id | wins
+ *   ----+------
+ *     1 |    3
+ *     2 |    2
+ *     3 |    3
+ *     4 |    1
+ *     5 |    1
+ *   (5 rows)
  */
 CREATE VIEW wins_per_player AS
     SELECT p.id AS id, COUNT(m.winner) AS wins
@@ -81,6 +100,18 @@ CREATE VIEW wins_per_player AS
 /*
  * Get player standings, ranked according to OMW (Opponent Match Wins).
  * Each row has the players' id, name, #wins and #matches.
+ *
+ * Example:
+ *
+ *   tournament=> select * from player_standings;
+ *     id |      name       | wins | matches
+ *    ----+-----------------+------+---------
+ *      1 | Kiersten Kemper |    3 |       4
+ *      3 | Winston Wunsch  |    3 |       6
+ *      2 | Elfreda Eakins  |    2 |       3
+ *      5 | Katharyn Korth  |    1 |       3
+ *      4 | Sudie Sobotka   |    1 |       4
+ *    (5 rows)
  */
 CREATE VIEW player_standings AS
     SELECT p.id as id, p.name as name, w.wins as wins, m.matches as matches
