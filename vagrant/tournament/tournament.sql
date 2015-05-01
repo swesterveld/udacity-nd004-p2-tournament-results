@@ -34,6 +34,7 @@ CREATE TABLE players (
  * TODO: fully support/implement enrollments in the code.
  */
 CREATE TABLE enrollments (
+    id SERIAL PRIMARY KEY,
     player INT REFERENCES players (id),
     tournament INT REFERENCES tournaments (id)
 );
