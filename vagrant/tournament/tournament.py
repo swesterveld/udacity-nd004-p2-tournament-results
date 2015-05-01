@@ -13,7 +13,7 @@ def connect():
 
 
 def count_rows(table):
-    """Returns the number of rows in a table"""
+    """Returns the number of rows in a table given"""
     query = "SELECT COUNT(*) FROM %s;" % table
 
     conn = connect()
@@ -22,24 +22,41 @@ def count_rows(table):
     # Execute a command to query the database and obtain data as Python objects
     cur.execute(query)
     count = cur.fetchone()[0]
+    conn.commit()
 
     cur.close()
-    conn.commit()
     conn.close()
 
     return count
 
 
-def deleteTournaments():
-    """Remove all the tournament records from the database."""
-    query = "DELETE FROM tournaments;"
+def delete_rows(table):
+    """Remove all records of a given table from the database."""
+    query = "DELETE FROM %s;" % table
 
+    # Connect to the database and open a cursur to perform database operations
     conn = connect()
     cur = conn.cursor()
+
+    # Execute a command to let the database delete the records
     cur.execute(query)
-    cur.close()
+
+    # Make the changes to the database persistent
     conn.commit()
+
+    # Close communication with the database
+    cur.close()
     conn.close()
+
+
+def deleteTournaments():
+    """Remove all the tournament records from the database."""
+    delete_rows("tournaments")
+
+
+def countTournaments():
+    """Returns the number of tournaments currently in the database."""
+    return count_rows("tournaments")
 
 
 def addTournament(name):
@@ -55,31 +72,12 @@ def addTournament(name):
 
 def deleteMatches():
     """Remove all the match records from the database."""
-    query = "DELETE FROM matches;"
-
-    # Connect to the database
-    conn = connect()
-    # Open a cursur to perform database operations
-    cur = conn.cursor()
-    # Execute a command
-    cur.execute(query)
-    # Make the changes to the database persistent
-    conn.commit()
-    # Close communication with the database
-    conn.close()
-
+    delete_rows("matches")
 
 
 def deletePlayers():
     """Remove all the player records from the database."""
-    query = "DELETE FROM players;"
-
-    conn = connect()
-    cur = conn.cursor()
-    cur.execute(query)
-    cur.close()
-    conn.commit()
-    conn.close()
+    delete_rows("players")
 
 
 def countPlayers():
