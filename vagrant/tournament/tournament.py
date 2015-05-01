@@ -12,6 +12,24 @@ def connect():
     return conn
 
 
+def count_rows(table):
+    """Returns the number of rows in a table"""
+    query = "SELECT COUNT(*) FROM %s;" % table
+
+    conn = connect()
+    cur = conn.cursor()
+
+    # Execute a command to query the database and obtain data as Python objects
+    cur.execute(query)
+    count = cur.fetchone()[0]
+
+    cur.close()
+    conn.commit()
+    conn.close()
+
+    return count
+
+
 def deleteTournaments():
     """Remove all the tournament records from the database."""
     query = "DELETE FROM tournaments;"
@@ -66,19 +84,7 @@ def deletePlayers():
 
 def countPlayers():
     """Returns the number of players currently registered."""
-    query = "SELECT COUNT(*) FROM players;"
-
-    conn = connect()
-    cur = conn.cursor()
-    # Execute a command to query the database and obtain data as Python
-    # objects
-    cur.execute(query)
-    count = cur.fetchone()[0]
-    cur.close()
-    conn.commit()
-    conn.close()
-    return count
-
+    return count_rows("players")
 
 
 def registerPlayer(name):
