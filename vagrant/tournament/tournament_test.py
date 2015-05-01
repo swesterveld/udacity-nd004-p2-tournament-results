@@ -9,6 +9,25 @@ def testDeleteTournaments():
     print "0. Tournaments can be deleted."
 
 
+def testAddCountDeleteTournaments():
+    deleteTournaments()
+    addTournament("Tournament A")
+    addTournament("Tournament B")
+    c = countTournaments()
+    if c != 2:
+        raise ValueError(
+            "After 2 tournaments added, countTournaments() should return 2.")
+    deleteTournaments()
+    c = countTournaments()
+    if c == '0':
+        raise TypeError(
+            "countTournaments() should return numeric zero, not string '0'.")
+    if c != 0:
+        raise ValueError(
+            "After deleting, countTournaments() should return 0.")
+    print "0.5 Tournaments can be added and deleted."
+
+
 def testDeleteMatches():
     deleteTournaments()
     deleteMatches()
@@ -30,7 +49,7 @@ def testCount():
         raise TypeError(
             "countPlayers() should return numeric zero, not string '0'.")
     if c != 0:
-        raise ValueError("After deleting, countPlayers should return zero.")
+        raise ValueError("After deleting, countPlayers() should return zero.")
     print "3. After deleting, countPlayers() returns zero."
 
 
@@ -48,10 +67,8 @@ def testRegister():
 def testRegisterCountDelete():
     deleteMatches()
     deletePlayers()
-    registerPlayer("Markov Chaney")
-    registerPlayer("Joe Malik")
-    registerPlayer("Mao Tsu-hsi")
-    registerPlayer("Atlanta Hope")
+    players = ["Markov Chaney", "Joe Malik", "Mao Tsu-hsi", "Atlanta Hope"]
+    bulkRegisterPlayers(players)
     c = countPlayers()
     if c != 4:
         raise ValueError(
@@ -66,8 +83,8 @@ def testRegisterCountDelete():
 def testStandingsBeforeMatches():
     deleteMatches()
     deletePlayers()
-    registerPlayer("Melpomene Murray")
-    registerPlayer("Randy Schwartz")
+    players = ["Melpomene Murray", "Randy Schwartz"]
+    bulkRegisterPlayers(players)
     standings = playerStandings()
     if len(standings) < 2:
         raise ValueError("Players should appear in playerStandings even before "
@@ -89,10 +106,8 @@ def testStandingsBeforeMatches():
 def testReportMatches():
     deleteMatches()
     deletePlayers()
-    registerPlayer("Bruno Walton")
-    registerPlayer("Boots O'Neal")
-    registerPlayer("Cathy Burton")
-    registerPlayer("Diane Grant")
+    players = ["Bruno Walton", "Boots O'Neal", "Cathy Burton", "Diane Grant"]
+    bulkRegisterPlayers(players)
     standings = playerStandings()
     [id1, id2, id3, id4] = [row[0] for row in standings]
     reportMatch(id1, id2)
@@ -111,10 +126,8 @@ def testReportMatches():
 def testPairings():
     deleteMatches()
     deletePlayers()
-    registerPlayer("Twilight Sparkle")
-    registerPlayer("Fluttershy")
-    registerPlayer("Applejack")
-    registerPlayer("Pinkie Pie")
+    players = ["Twilight Sparkle", "Fluttershy", "Applejack", "Pinkie Pie"]
+    bulkRegisterPlayers(players)
     standings = playerStandings()
     [id1, id2, id3, id4] = [row[0] for row in standings]
     reportMatch(id1, id2)
@@ -134,6 +147,7 @@ def testPairings():
 
 if __name__ == '__main__':
     testDeleteTournaments()
+    testAddCountDeleteTournaments()
     testDeleteMatches()
     testDelete()
     testCount()

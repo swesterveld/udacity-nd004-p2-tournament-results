@@ -12,8 +12,8 @@ def connect():
     return conn
 
 
-def count_rows(table):
-    """Returns the number of rows in a table given"""
+def count_rows_in(table):
+    """Count all records in a given table"""
     query = "SELECT COUNT(*) FROM %s;" % table
 
     conn = connect()
@@ -30,8 +30,8 @@ def count_rows(table):
     return count
 
 
-def delete_rows(table):
-    """Remove all records of a given table from the database."""
+def delete_rows_from(table):
+    """Remove all records from a given table in the database."""
     query = "DELETE FROM %s;" % table
 
     # Connect to the database and open a cursur to perform database operations
@@ -51,12 +51,12 @@ def delete_rows(table):
 
 def deleteTournaments():
     """Remove all the tournament records from the database."""
-    delete_rows("tournaments")
+    delete_rows_from("tournaments")
 
 
 def countTournaments():
     """Returns the number of tournaments currently in the database."""
-    return count_rows("tournaments")
+    return count_rows_in("tournaments")
 
 
 def addTournament(name):
@@ -72,17 +72,17 @@ def addTournament(name):
 
 def deleteMatches():
     """Remove all the match records from the database."""
-    delete_rows("matches")
+    delete_rows_from("matches")
 
 
 def deletePlayers():
     """Remove all the player records from the database."""
-    delete_rows("players")
+    delete_rows_from("players")
 
 
 def countPlayers():
     """Returns the number of players currently registered."""
-    return count_rows("players")
+    return count_rows_in("players")
 
 
 def registerPlayer(name):
@@ -102,6 +102,12 @@ def registerPlayer(name):
     cur.close()
     conn.commit()
     conn.close()
+
+
+def bulkRegisterPlayers(names):
+    """Adds multiple players in bulk."""
+    for name in names:
+        registerPlayer(name)
 
 
 def playerStandings():
