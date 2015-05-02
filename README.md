@@ -22,6 +22,11 @@ used by the Udacity reviewer, this code at least:
 - [x] Meets Specifications: A README file is included detailing all
   steps required to successfully run the application.
 
+A list of websites, books, forums, blog posts, Github repositories etcetera
+that I have referred to or used in this submission can be found in the
+[references.txt](https://github.com/swesterveld/udacity-nd004-p2-tournament-results/blob/master/references.txt)
+file.
+
 ## Run the application
 1. Make sure Git, Vagrant and VirtualBox have been installed on your computer
 2. Make sure your computer is connected to the internet

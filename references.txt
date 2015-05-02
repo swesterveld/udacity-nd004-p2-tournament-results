@@ -1,0 +1,7 @@
+These are the references I've used for completing the project.
+
+* PostgreSQL Documentation for help on database queries:
+  http://www.postgresql.org/docs/9.3/static/index.html
+
+* For help on using Psycopg, the PostgreSQL database adapter for Python:
+  http://initd.org/psycopg/docs/index.html
