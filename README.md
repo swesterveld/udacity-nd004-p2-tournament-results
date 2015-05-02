@@ -40,7 +40,7 @@ There are several things I've added or modified:
    make database queries more concise.
    *Note: Although the database is already prepared to support multiple
    tournaments, it hasn't been implemented in the Python code yet.*
-2. Setup of the database has been added to the script ```pg_config.sh```
+2. Setup of the database has been added to the script [pg_config.sh](https://github.com/swesterveld/udacity-nd004-p2-tournament-results/blob/master/vagrant/pg_config.sh)
    to let Vagrant automatically do it when creating the virtual
    environment.
 3. Tests have been added for interaction with the tournaments-table in
