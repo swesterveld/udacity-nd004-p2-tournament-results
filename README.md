@@ -4,7 +4,7 @@ Project Tournament Results
 This code is the result I achieved for ***[Udacity Full Stack Developer Nanodegree](https://www.udacity.com/course/nd004) - Project 2: Tournament Results***.
 Instructions on how to run the application can be found at the bottom of this README text.
 
-This code has been *reviewd by me*. According to me, based on the rubric
+This code has been *reviewed by me*. According to me, based on the rubric
 used by the Udacity reviewer, this code at least:
 - [x] Exceeds Specifications: The module passes the unit tests; and
   separately, one or more of the extra credit options are implemented.
@@ -15,7 +15,7 @@ used by the Udacity reviewer, this code at least:
   the proper data type and there are no unnecessary columns defined. In
   addition, primary and foreign keys are correctly specified.
 - [x] Exceeds Specifications: Code is ready for personal review, is
-  neatly formatted and makes use of query paramters appropriately. All
+  neatly formatted and makes use of query parameters appropriately. All
   sorting and aggregation are performed in the database.
 - [x] Meets Specifications: Comments are present and effectively explain
   longer code procedures.
